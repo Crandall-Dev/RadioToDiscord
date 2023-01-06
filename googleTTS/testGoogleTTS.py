@@ -6,10 +6,10 @@ import speech_recognition as sr
 import pyttsx3
  
 # Initialize the recognizer
-r = sr.Recognizer()
+recognizer = sr.Recognizer()
  
-# Function to convert text to
-# speech
+
+# Function to convert text to speech
 def SpeakText(command):
      
     # Initialize the engine
@@ -18,32 +18,30 @@ def SpeakText(command):
     engine.runAndWait()
      
      
-# Loop infinitely for user to
-# speak
- 
+# Loop infinitely for user to speak
 while(1):   
      
     # Exception handling to handle
-    # exceptions at the runtime
+    #  exceptions at the runtime
     try:
          
         # use the microphone as source for input.
-        with sr.Microphone() as source2:
+        with sr.Microphone() as audioSourceMic:
              
-            # wait for a second to let the recognizer
-            # adjust the energy threshold based on
-            # the surrounding noise level
-            r.adjust_for_ambient_noise(source2, duration=0.2)
+            # Wait for a second to let the recognizer
+            #  adjust the energy threshold based on
+            #  the surrounding noise level
+            recognizer.adjust_for_ambient_noise(audioSourceMic, duration=0.2)
              
-            #listens for the user's input
-            audio2 = r.listen(source2)
+            # Listens for the user's input
+            audio2 = recognizer.listen(audioSourceMic)
              
             # Using google to recognize audio
-            MyText = r.recognize_google(audio2)
-            MyText = MyText.lower()
+            myText = recognizer.recognize_google(audio2)
+            myText = myText.lower()
  
-            print("Did you say ",MyText)
-            SpeakText(MyText)
+            print(f"Did you say: '{myText}'?")
+            SpeakText(myText)
              
     except sr.RequestError as e:
         print("Could not request results; {0}".format(e))
